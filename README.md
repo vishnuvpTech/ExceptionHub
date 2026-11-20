@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" alt="ExceptionHub" width="260">
+</p>
+
 # ExceptionHub
 
 A lightweight, framework-agnostic Python monitoring SDK inspired by Sentry.

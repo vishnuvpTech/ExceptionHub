@@ -127,3 +127,12 @@ def test_request_context_attached(monitor: Monitor, fake_http: object) -> None:
     body = fake_http.last_body
     assert body["request"]["request_id"] == "req_1"
     assert body["tags"]["user"] == "u1"
+
+
+def test_icon_assets_are_bundled() -> None:
+    from exceptionhub import icon_bytes, icon_path
+
+    p = icon_path()
+    assert p.exists(), "the packaged icon must ship with the SDK"
+    data = icon_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n", "icon must be a valid PNG"

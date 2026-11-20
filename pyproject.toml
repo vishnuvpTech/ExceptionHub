@@ -53,7 +53,7 @@ Homepage = "https://example.com/exceptionhub"
 packages = { find = { include = ["exceptionhub*"] } }
 
 [tool.setuptools.package-data]
-exceptionhub = ["py.typed"]
+exceptionhub = ["py.typed", "icon.png"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
