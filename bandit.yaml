@@ -1,0 +1,18 @@
+# Bandit config for the ExceptionHub SDK.
+#
+# Run with:  bandit -c bandit.yaml -r exceptionhub/
+#
+# Two rules are skipped project-wide because the flagged patterns are the
+# correct behaviour for a monitoring SDK:
+#
+#   B110 (try/except/pass)
+#     Every capture/transport path is wrapped so that a monitoring failure
+#     can NEVER crash the host application (reliability requirement #1 and #2).
+#
+#   B311 (standard PRNG)
+#     The retry jitter uses random.uniform on purpose: it only needs to be
+#     unpredictable to the receiver, not cryptographically secure.
+
+skips:
+  - B110
+  - B311

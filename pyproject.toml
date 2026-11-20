@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "exceptionhub"
+version = "0.1.0"
+description = "Lightweight, framework-agnostic Python monitoring SDK: capture exceptions and performance issues and report them to a central webhook."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Vishnu vp" }]
+keywords = ["monitoring", "observability", "sentry", "exception-tracking", "performance"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Logging",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "httpx>=0.24",
+]
+
+[project.optional-dependencies]
+# Framework integrations (all optional; core SDK works without them)
+fastapi = ["fastapi>=0.100", "starlette>=0.27"]
+flask = ["flask>=2.0"]
+django = ["django>=4.0"]
+all = ["fastapi>=0.100", "starlette>=0.27", "flask>=2.0", "django>=4.0", "uvicorn>=0.23"]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "ruff>=0.1",
+    "bandit>=1.7",
+    "fastapi>=0.100",
+    "starlette>=0.27",
+    "uvicorn>=0.23",
+    "flask>=2.0",
+    "django>=4.0",
+    "httpx>=0.24",
+]
+
+[project.urls]
+Homepage = "https://example.com/exceptionhub"
+
+[tool.setuptools]
+packages = { find = { include = ["exceptionhub*"] } }
+
+[tool.setuptools.package-data]
+exceptionhub = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "S"]
+# S101: asserts are used in the test suite.
+# S110: try/except/pass is used deliberately throughout the SDK so a
+#        monitoring failure can never crash the host application.
+ignore = ["S101", "S110"]
+
+# Test and example code is not library code: security rules (S) that only
+# matter for the packaged SDK do not apply, and E501 is relaxed.
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "E501", "B018", "F841", "B904"]
+"examples/**" = ["S", "E501", "B018", "F841", "B904"]
+
+# See bandit.yaml for the project-wide skipped rules (B110, B311) and why.
+[tool.bandit]
+exclude_dirs = [".venv", "build", "dist"]
